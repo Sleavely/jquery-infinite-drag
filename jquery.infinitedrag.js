@@ -88,6 +88,8 @@
 		// Creates the tile at (i, j).
 
 		function create_tile(i, j) {
+			var i_requested = i;
+			var j_requested = j;
 			if (i < _to.range_col[0] || _to.range_col[1] < i) {
 				if(_to.loop_ranges) {
 					if(i < _to.range_col[0]) i = _to.range_col[1];
@@ -121,7 +123,7 @@
 				col: i,
 				row: j
 			});
-			_setTileStyle($new_tile, i, j);
+			_setTileStyle($new_tile, i_requested, j_requested);
 
 			if (_to.on_aggregate) {
 				aggregator_data.push({
