@@ -61,6 +61,7 @@
 			start_row: 0,
 			range_col: [-1000000, 1000000],
 			range_row: [-1000000, 1000000],
+			loop_ranges: false,
 			margin: 0,
 			cleaning_enabled: true,
 			remove_buffer: 10,
@@ -88,8 +89,22 @@
 
 		function create_tile(i, j) {
 			if (i < _to.range_col[0] || _to.range_col[1] < i) {
-				return;
-			} else if (j < _to.range_row[0] || _to.range_row[1] < j) {
+				if(_to.loop_ranges) {
+					if(i < _to.range_col[0]) i = _to.range_col[1];
+					if(_to.range_col[1] < i) i = _to.range_col[0];
+				}
+				else {
+					return;
+				}
+			}
+			if (j < _to.range_row[0] || _to.range_row[1] < j) {
+				if(_to.loop_ranges) {
+					if(j < _to.range_row[0]) j = _to.range_row[1];
+					if(_to.range_row[1] < j) j = _to.range_row[0];
+				}
+				else {
+					return;
+				}
 				return;
 			}
 
@@ -244,7 +259,7 @@
 			if (_to.cleaning_enabled) {
 				return;
 			}
-			
+
 			// Finds tiles which can be seen based on window width & height
 			var maxLeft = (left + viewport_cols) + 1,
 				maxTop = (top + viewport_rows);
